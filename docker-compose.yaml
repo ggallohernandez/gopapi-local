@@ -1,0 +1,29 @@
+# docker compose for an nginx with php-fpm container in the same network
+version: '3.9'
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: always
+    ports:
+      - 8080:80
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - gopapi-api
+    networks:
+      - gopapi-network
+  gopapi-api:
+    hostname: api.gopapi.localhost
+    build: 
+      context: ${GOPAPI_DIR-..}/gopapi-api
+    command: sh -c "composer install --ignore-platform-reqs"
+    container_name: gopapi-api
+    restart: always
+    volumes:
+      - ${GOPAPI_DIR-..}/gopapi-api/src:/var/www/html
+    networks:
+      - gopapi-network
+networks:
+  gopapi-network:
+    driver: bridge
