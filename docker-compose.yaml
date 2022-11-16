@@ -17,7 +17,6 @@ services:
     hostname: api.gopapi.localhost
     build: 
       context: ${GOPAPI_DIR-..}/gopapi-api
-    command: sh -c "composer install --ignore-platform-reqs"
     container_name: gopapi-api
     restart: always
     volumes:
