@@ -2,17 +2,21 @@
 version: '3.9'
 services:
   nginx:
-    image: nginx:latest
+    build: 
+      context: ./nginx
     container_name: nginx
     restart: always
     ports:
       - 8080:80
+      - 4443:443
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
+      - certificates:/var/local/step:ro
     depends_on:
       - gopapi-api
     networks:
       - gopapi-network
+
   gopapi-api:
     hostname: api.gopapi.localhost
     build: 
@@ -27,6 +31,45 @@ services:
       - ${GOPAPI_DIR-..}/gopapi-api/src:/var/www/html
     networks:
       - gopapi-network
+
+  gopapi-ca:
+    build:
+      context: ${GOPAPI_DIR-..}/gopapi-ca
+    container_name: gopapi-ca
+    restart: always
+    ports:
+      - 8443:8443
+    networks:
+      - gopapi-network
+  
+  gopapi-renewer:
+    depends_on:
+      - gopapi-ca
+    build:
+      context: ${GOPAPI_DIR-..}/gopapi-renewer
+    volumes:
+      - certificates:/var/local/step
+    secrets:
+      - password
+    environment:
+      STEPPATH: /home/step
+      STEP_CA_URL: https://ca
+      STEP_FINGERPRINT: 84a033e84196f73bd593fad7a63e509e57fd982f02084359c4e8c5c864efc27d
+      STEP_ROOT: /var/local/step/root_ca.crt
+      STEP_KID: DmAtZt2EhmZr_iTJJ387fr4Md2NbzMXGdXQNW1UWPXk
+      STEP_PASSWORD_FILE: /run/secrets/password
+      COMMON_NAME: nginx
+    networks:
+      - gopapi-network
+
+volumes:
+  certificates:
+
+
+secrets:
+  password:
+    file: ./password.txt
+
 networks:
   gopapi-network:
     driver: bridge
