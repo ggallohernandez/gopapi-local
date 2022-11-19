@@ -7,7 +7,6 @@ services:
     container_name: nginx
     restart: always
     ports:
-      - 8080:80
       - 4443:443
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
@@ -53,7 +52,7 @@ services:
       - password
     environment:
       STEPPATH: /home/step
-      STEP_CA_URL: https://ca
+      STEP_CA_URL: https://gopapi-ca
       STEP_FINGERPRINT: 84a033e84196f73bd593fad7a63e509e57fd982f02084359c4e8c5c864efc27d
       STEP_ROOT: /var/local/step/root_ca.crt
       STEP_KID: DmAtZt2EhmZr_iTJJ387fr4Md2NbzMXGdXQNW1UWPXk
