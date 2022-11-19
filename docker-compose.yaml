@@ -23,11 +23,18 @@ services:
     container_name: gopapi-api
     restart: always
     environment:
-      - AUTH0_DOMAIN=dev-r4rgf3uh.us.auth0.com
-      - AUTH0_AUDIENCE=gopapi-api
-      - APP_ENV=development
+      AUTH0_DOMAIN: dev-r4rgf3uh.us.auth0.com
+      AUTH0_AUDIENCE: gopapi-api
+      APP_ENV: development
+      STEPPATH: /home/step
+      STEP_CA_URL: https://gopapi-ca
+      STEP_FINGERPRINT: 84a033e84196f73bd593fad7a63e509e57fd982f02084359c4e8c5c864efc27d
+      STEP_ROOT: /var/local/step/root_ca.crt
+      STEP_KID: DmAtZt2EhmZr_iTJJ387fr4Md2NbzMXGdXQNW1UWPXk
+      STEP_PASSWORD_FILE: /run/secrets/password
     volumes:
       - ${GOPAPI_DIR-..}/gopapi-api/src:/var/www/html
+      - certificates:/var/local/step
     networks:
       - gopapi-network
 
@@ -35,6 +42,8 @@ services:
     build:
       context: ${GOPAPI_DIR-..}/gopapi-ca
     container_name: gopapi-ca
+    environment:
+      DOCKER_STEPCA_INIT_SSH: 1
     restart: always
     ports:
       - 8443:8443
