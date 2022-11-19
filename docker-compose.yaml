@@ -22,6 +22,8 @@ services:
       context: ${GOPAPI_DIR-..}/gopapi-api
     container_name: gopapi-api
     restart: always
+    secrets:
+      - password
     environment:
       AUTH0_DOMAIN: dev-r4rgf3uh.us.auth0.com
       AUTH0_AUDIENCE: gopapi-api
