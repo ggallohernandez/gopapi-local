@@ -1,5 +1,7 @@
 ## Gopapi Local
 
+:warning: This is a work in progress. :warning:
+
 Gopapi is a demo project to show skills in PHP (without a framework), NGINX, Docker, SmallStep, and React. 
 
 Gopapi Local is a local development environment for Gopapi. It is a Docker Compose project that runs an NGIX server that proxies the Gopapi API and frontend.
