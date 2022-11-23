@@ -13,7 +13,7 @@ Gopapi Local is a local development environment for Gopapi. It is a Docker Compo
 ### Usage
 
 1. Clone the repository [gopapi-local]()
-2. Clone the repository [gopapi-api](), [gopapi-web](), [gopapi-ca](), and [gopapi-renewer]()
+2. Clone the repository [gopapi-api](https://github.com/ggallohernandez/gopapi-api), [gopapi-web](https://github.com/ggallohernandez/gopapi-web), [gopapi-ca](https://github.com/ggallohernandez/gopapi-ca), and [gopapi-renewer](https://github.com/ggallohernandez/gopapi-renewer)
 3. Set GOPAPI_DIR env variable to the path where you cloned the gopapi repositories
 4. Run `docker-compose up -d`
 5. Visit https://localhost:4443
